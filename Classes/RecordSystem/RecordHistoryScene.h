@@ -8,7 +8,7 @@ struct Record;
 
 struct RecordTexts {
     const Record *source;
-    const char *title;
+    std::string title;
     std::string time;
     std::string players[4];
     int seats[4];

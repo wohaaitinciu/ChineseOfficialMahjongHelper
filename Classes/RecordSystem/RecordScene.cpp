@@ -152,7 +152,7 @@ static FORCE_INLINE unsigned computeRowsAlign4(unsigned cnt) {
 #define PLAYER_TO_UI(p_) ORDER(_seatFlag, (p_))
 #define UI_TO_PLAYER(u_) ORDER(_playerFlag, (u_))
 
-bool RecordScene::init(unsigned handIdx, const char **names, const Record::Detail *detail, SubmitCallback &&callback) {
+bool RecordScene::init(unsigned handIdx, const char **names, uint8_t mode, const Record::Detail *detail, SubmitCallback &&callback) {
     if (UNLIKELY(!BaseScene::initWithTitle(handNameText[handIdx]))) {
         return false;
     }
@@ -165,6 +165,7 @@ bool RecordScene::init(unsigned handIdx, const char **names, const Record::Detai
 
     _handIdx = handIdx;
     memcpy(_playerNames, names, sizeof(_playerNames));
+    _mode = mode;
     _submitCallback.swap(callback);
 
     bool isRealSeatOrder = !UserDefault::getInstance()->getBoolForKey(USE_FIXED_SEAT_ORDER);
@@ -723,7 +724,7 @@ void RecordScene::updateScoreLabel() {
     }
 
     int scoreTable[4];
-    TranslateDetailToScoreTable(_detail, scoreTable);
+    TranslateDetailToScoreTable(_detail, _mode, scoreTable);
 
     for (int i = 0; i < 4; ++i) {
         _scoreLabel[i]->setString(Common::format("%+d", scoreTable[PLAYER_TO_UI(i)]));

@@ -29,6 +29,7 @@ struct Record {
             uint8_t flower_count;   // 花牌数
         } win_hand;         // 和牌
     } detail[16];           // 每一盘的详情
+    uint8_t mode;           // 模式 0传统 1全铳
     uint16_t current_index;  // 当前打到第几盘
     time_t start_time;      // 开始时间
     time_t end_time;        // 结束时间
@@ -67,7 +68,7 @@ void LoadRecordsFromFile(const char *file, std::vector<Record> &records);
 void SaveRecordsToFile(const char *file, const std::vector<Record> &records);
 void ModifyRecordInVector(std::vector<Record> &records, const Record *r);
 
-void TranslateDetailToScoreTable(const Record::Detail &detail, int (&scoreTable)[4]);
+void TranslateDetailToScoreTable(const Record::Detail &detail, uint8_t mode, int (&scoreTable)[4]);
 void CalculateRankFromScore(const int (&scores)[4], unsigned (&ranks)[4]);
 void RankToStandardScore(const unsigned (&ranks)[4], unsigned (&ss12)[4]);
 

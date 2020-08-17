@@ -52,6 +52,10 @@ static std::string formatTime(time_t startTime, time_t endTime) {
     return str;
 }
 
+static std::string formatTitle(const Record &record) {
+    return std::string(record.mode == 0 ? __UTF8("[翻三] ") : __UTF8("[全铳] ")) + (record.title[0] != '\0' ? record.title : NO_NAME_TITLE);
+}
+
 void RecordHistoryScene::updateRecordTexts() {
     _recordTexts.clear();
     _recordTexts.reserve(g_records.size());
@@ -59,7 +63,7 @@ void RecordHistoryScene::updateRecordTexts() {
     std::transform(g_records.begin(), g_records.end(), std::back_inserter(_recordTexts), [](const Record &record) {
         RecordTexts texts;
         texts.source = &record;
-        texts.title = record.title[0] != '\0' ? record.title : NO_NAME_TITLE;
+        texts.title = formatTitle(record);
         texts.time = formatTime(record.start_time, record.end_time);
 
         typedef std::pair<int, int> SeatScore;
@@ -70,7 +74,7 @@ void RecordHistoryScene::updateRecordTexts() {
         seatscore[3].first = 3, seatscore[3].second = 0;
         for (int i = 0; i < 16; ++i) {
             int s[4];
-            TranslateDetailToScoreTable(record.detail[i], s);
+            TranslateDetailToScoreTable(record.detail[i], record.mode, s);
             seatscore[0].second += s[0];
             seatscore[1].second += s[1];
             seatscore[2].second += s[2];
@@ -804,7 +808,7 @@ static void SummarizeRecords(const std::vector<int8_t> &flags, const std::vector
             }
 
             int scoreTable[4];
-            TranslateDetailToScoreTable(detail, scoreTable);
+            TranslateDetailToScoreTable(detail, record.mode, scoreTable);
             for (int n = 0; n < 4; ++n) {
                 totalScores[n] += scoreTable[n];
             }
@@ -1120,7 +1124,7 @@ namespace {
         bool finished = record.end_time != 0;
 
         // 标题
-        titleLabel->setString(record.title[0] != '\0' ? record.title : NO_NAME_TITLE);
+        titleLabel->setString(formatTitle(record));
         cw::scaleLabelToFitWidth(titleLabel, cellWidth - 35.0f - 2.0f);
 
         // 时间

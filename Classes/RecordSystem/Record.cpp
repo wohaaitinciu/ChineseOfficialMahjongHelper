@@ -136,6 +136,11 @@ void JsonToRecord(const rapidjson::Value &json, Record &record) {
         }
     }
 
+    it = json.FindMember("mode");
+    if (it != json.MemberEnd() && it->value.IsUint()) {
+        record.mode = static_cast<uint8_t>(it->value.GetUint());
+    }
+
     it = json.FindMember("start_time");
     if (it != json.MemberEnd() && it->value.IsUint64()) {
         record.start_time = static_cast<time_t>(it->value.GetUint64());
@@ -192,6 +197,7 @@ void RecordToJson(const Record &record, rapidjson::Value &json, rapidjson::Value
     }
     json.AddMember("detail", std::move(detail), alloc);
 
+    json.AddMember("mode", rapidjson::Value(record.mode), alloc);
     json.AddMember("start_time", rapidjson::Value(static_cast<uint64_t>(record.start_time)), alloc);
     json.AddMember("end_time", rapidjson::Value(static_cast<uint64_t>(record.end_time)), alloc);
     json.AddMember("title", rapidjson::StringRef(record.title), alloc);
@@ -642,7 +648,7 @@ void ModifyRecordInVector(std::vector<Record> &records, const Record *r) {
     SortRecords(records);
 }
 
-void TranslateDetailToScoreTable(const Record::Detail &detail, int (&scoreTable)[4]) {
+void TranslateDetailToScoreTable(const Record::Detail &detail, uint8_t mode, int (&scoreTable)[4]) {
     memset(scoreTable, 0, sizeof(scoreTable));
     int fan = static_cast<int>(detail.fan);
     uint8_t wf = detail.win_flag;
@@ -651,6 +657,11 @@ void TranslateDetailToScoreTable(const Record::Detail &detail, int (&scoreTable)
         int winIndex = WIN_CLAIM_INDEX(wf);
         int claimIndex = WIN_CLAIM_INDEX(cf);
         if (winIndex == claimIndex) {  // 自摸
+            if (mode != 0) {
+                div_t ret = div(fan, 3);
+                fan = ret.quot + !!ret.rem;
+            }
+
             for (int i = 0; i < 4; ++i) {
                 scoreTable[i] = (i == winIndex) ? (fan + 8) * 3 : (-8 - fan);
             }
