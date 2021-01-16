@@ -861,7 +861,7 @@ static cocos2d::Node *createStatisticNode(const RecordsStatistic &rs) {
     texts[10] = Common::format(__UTF8("自摸率：%.2f%%"), rs.win > 0 ? rs.self_drawn * 100 / static_cast<float>(rs.win) : 0.0f);
     texts[11] = Common::format(__UTF8("平均和牌番：%.2f"), rs.win > 0 ? rs.win_fan / static_cast<float>(rs.win) : 0.0f);
     texts[12] = Common::format(__UTF8("平均点炮番：%.2f"), rs.claim > 0 ? rs.claim_fan / static_cast<float>(rs.claim) : 0.0f);
-    texts[13] = Common::format(__UTF8("和牌最大番：%hu"), rs.max_fan);
+    texts[13] = Common::format(__UTF8("最大和牌番：%hu"), rs.max_fan);
     texts[14] = Common::format(__UTF8("统计局数：%u"), rs.competition_count);
     texts[15] = Common::format(__UTF8("有效盘数：%u"), rs.hand_count);
 
