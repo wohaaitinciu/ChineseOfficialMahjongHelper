@@ -261,6 +261,7 @@ void HandTilesWidget::replaceTile(mahjong::tile_t tile) {
     ui::Button *button = _standingTileButtons[_currentIdx];
     button->loadTextureNormal(tilesImageName[tile]);
     button->setTag(tile);
+    button->setVisible(true);
 
     mahjong::tile_t prevTile = _standingTiles[_currentIdx];
     --_standingTilesTable[prevTile];
@@ -815,6 +816,12 @@ bool HandTilesWidget::makeFixedConcealedKongPack() {
     addFixedConcealedKongPack(tile);
     refreshStandingTiles();
     return true;
+}
+
+void HandTilesWidget::discardCurrentTile() {
+    if (_currentIdx < _standingTiles.size()) {
+        _standingTileButtons[_currentIdx]->setVisible(false);
+    }
 }
 
 cocos2d::Node *HandTilesWidget::createStaticNode(const mahjong::hand_tiles_t &handTiles, mahjong::tile_t servingTile) {

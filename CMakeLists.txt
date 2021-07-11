@@ -74,6 +74,7 @@ list(APPEND GAME_SOURCE
      Classes/RecordSystem/RecordHistoryScene.cpp
      Classes/RecordSystem/RecordScene.cpp
      Classes/RecordSystem/ScoreSheetScene.cpp
+     Classes/Training/TrainingScene.cpp
      Classes/utils/common.cpp
      Classes/utils/socket.cpp
      Classes/widget/AlertDialog.cpp
@@ -106,6 +107,7 @@ list(APPEND GAME_HEADER
      Classes/RecordSystem/RecordHistoryScene.h
      Classes/RecordSystem/RecordScene.h
      Classes/RecordSystem/ScoreSheetScene.h
+     Classes/Training/TrainingScene.h
      Classes/utils/common.h
      Classes/utils/compiler.h
      Classes/utils/socket.h

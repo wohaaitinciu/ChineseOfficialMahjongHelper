@@ -11,6 +11,7 @@ public:
 
 private:
     void onTipsButton(cocos2d::Ref *sender);
+    void onCompetitionButton(cocos2d::Ref *sender);
     void onRecreationsButton(cocos2d::Ref *sender);
 };
 

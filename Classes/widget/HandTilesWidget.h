@@ -25,6 +25,8 @@ public:
     bool isStandingTilesContainsServingTile() const;
     size_t countServingTileInFixedPacks() const;
 
+    void discardCurrentTile();
+
     virtual bool init() override;
 
 public:

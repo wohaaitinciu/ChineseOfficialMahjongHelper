@@ -12,7 +12,7 @@
 #include "FanTable/FanTableScene.h"
 #include "Other/OtherScene.h"
 #include "MahjongTheory/MahjongTheoryScene.h"
-#include "CompetitionSystem/CompetitionMainScene.h"
+#include "Training/TrainingScene.h"
 #include "MainMenu/LeftSideMenu.h"
 
 USING_NS_CC;
@@ -122,10 +122,10 @@ bool HelloWorld::init() {
     button->setScale9Enabled(true);
     button->setContentSize(Size(buttonWidth, buttonHeight));
     button->setTitleFontSize(20);
-    button->setTitleText(__UTF8("比赛"));
+    button->setTitleText(__UTF8("训练"));
     button->setPosition(Vec2(origin.x + buttonWidth * 1.5f + 8.0f, origin.y + visibleSize.height * 0.5f - buttonHeight * 0.5f + 8.0f));
     button->addClickEventListener([](Ref *) {
-        Director::getInstance()->pushScene(CompetitionMainScene::create());
+        Director::getInstance()->pushScene(TrainingScene::create());
     });
 
     button = UICommon::createButton();

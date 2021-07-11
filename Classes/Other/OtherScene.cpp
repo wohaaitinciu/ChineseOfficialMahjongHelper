@@ -2,6 +2,7 @@
 #include "../UICommon.h"
 #include "../widget/CommonWebViewScene.h"
 #include "../widget/LoadingView.h"
+#include "../CompetitionSystem/LatestCompetitionScene.h"
 
 USING_NS_CC;
 
@@ -21,7 +22,7 @@ bool OtherScene::init() {
     button->setContentSize(Size(90.0f, 32.0f));
     button->setTitleFontSize(20);
     button->setTitleText(__UTF8("相关补充"));
-    button->setPosition(Vec2(origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.5f + 25.0f));
+    button->setPosition(Vec2(origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.5f + 50.0f));
     button->addClickEventListener(std::bind(&OtherScene::onTipsButton, this, std::placeholders::_1));
 
     button = UICommon::createButton();
@@ -29,8 +30,17 @@ bool OtherScene::init() {
     button->setScale9Enabled(true);
     button->setContentSize(Size(90.0f, 32.0f));
     button->setTitleFontSize(20);
+    button->setTitleText(__UTF8("近期赛事"));
+    button->setPosition(Vec2(origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.5f));
+    button->addClickEventListener(std::bind(&OtherScene::onCompetitionButton, this, std::placeholders::_1));
+
+    button = UICommon::createButton();
+    this->addChild(button);
+    button->setScale9Enabled(true);
+    button->setContentSize(Size(90.0f, 32.0f));
+    button->setTitleFontSize(20);
     button->setTitleText(__UTF8("娱乐消遣"));
-    button->setPosition(Vec2(origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.5f - 25.0f));
+    button->setPosition(Vec2(origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.5f - 50.0f));
     button->addClickEventListener(std::bind(&OtherScene::onRecreationsButton, this, std::placeholders::_1));
 
     return true;
@@ -62,6 +72,10 @@ void OtherScene::onTipsButton(cocos2d::Ref *) {
             *text = valueMap.begin()->second.asString();
         }
     });
+}
+
+void OtherScene::onCompetitionButton(cocos2d::Ref *) {
+    Director::getInstance()->pushScene(LatestCompetitionScene::create());
 }
 
 void OtherScene::onRecreationsButton(cocos2d::Ref *) {
